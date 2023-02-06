@@ -1,6 +1,1 @@
-**/nodes_modules/
-**/back/nodes_modules/
-**/nodes_modules
-/nodes_modules
-nodes_modules
-**nodes_modules
+**/node_modules
