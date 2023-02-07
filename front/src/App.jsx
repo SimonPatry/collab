@@ -19,18 +19,14 @@ const App = () => {
 
   // On définit un state par défaut pour le user
   const emptyUser = {
-    username: '',
-    hasPlayed: false,
-    draw: [],
-    combo: ''
+    firstname: '',
+    lastname: '',
+    email: '',
   }
 
   // Tous les state de App.jsx
   const [sessionToken, setSessionToken] = useState('');
-  const [userHasPlayed, setUserHasPlayed] = useState("false");
   const [user, setUser] = useState(emptyUser);
-  const [openSuccess, setOpenSuccess] = useState(false);
-  const [openError, setOpenError] = useState(false);
 
   // Fonction pour récupérer l'utilisateur
   const fetchUser = async() => {
@@ -46,8 +42,7 @@ const App = () => {
     sessionToken &&
       fetchUser().then(user => {
         setUser(user);
-        user.hasPlayed === true ?
-          setUserHasPlayed("true") : setUserHasPlayed("false");
+
       })
   }, [sessionToken])
 
@@ -56,42 +51,12 @@ const App = () => {
     setSessionToken(localStorage.getItem('token'));
   }, []);
 
-  // On met à jour le state de userHasPlayed
-  useEffect(() => {
-    setUserHasPlayed(localStorage.getItem('hasPlayed'));
-  }, []);
-
-  // Fonction de fermeture du snackbar de succès
-  const handleCloseSuccess = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpenSuccess(false);
-  };
-
-  // Fonction de fermeture du snackbar d'erreur
-  const handleCloseError = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpenError(false);
-  };
-
   // Données de context
   let providerData = {
     sessionToken,
+    setSessionToken,
     user,
     setUser,
-    fetchUser,
-    openSuccess,
-    setOpenSuccess,
-    openError,
-    setOpenError,
-    handleCloseSuccess,
-    handleCloseError,
-    userHasPlayed,
   };
 
   return (
@@ -123,7 +88,7 @@ const App = () => {
           </header>
           <div className="globalContainer">
             <Routes>
-              <Route exact path="/login" element={<Login setSessionToken={setSessionToken} setUser={setUser} />}/>
+              <Route exact path="/login" element={<Login />}/>
               <Route exact path="/sign_in" element={<SignIn />}/>
             </Routes>
           </div>
