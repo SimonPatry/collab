@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Login from "./components/Login/Login";
 import SignIn from "./components/SignIn/signIn";
+import EditUser from './components/EditUser/editUser';
 import {fetchJson} from "./components/fetch";
 import AppContext from "./context/AppContext";
 import {Button, TextField} from "@mui/material";
@@ -90,6 +91,7 @@ const App = () => {
             <Routes>
               <Route exact path="/login" element={<Login />}/>
               <Route exact path="/sign_in" element={<SignIn />}/>
+              <Route exact path='/users/:id' element={<EditUser/>}/>
             </Routes>
           </div>
         </Router>

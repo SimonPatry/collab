@@ -1,24 +1,34 @@
-import './signin.scss';
+import './editUser.scss';
 import {Button, TextField, MenuItem} from "@mui/material";
-import {fetchPost} from "../fetch";
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {fetchJson, fetchPatch} from "../fetch";
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import React from "react";
 
-const SignIn = () => {
+const EditUser = () => {
   // Hook de navigation
   const navigate = useNavigate();
 
+  const { id } = useParams();
+
   // On récupère les variables d'environnement
-  const { REACT_APP_SIGNIN } = process.env;
+  const { REACT_APP_USERS } = process.env;
 
   const [user, setUser] = useState({gender:"", category:"", lastname:"", firstname:"", mail:"", password:"", city:"", country:"", photo:"", phone:"", birthdate:""});
+
+  useEffect(() =>{
+    fetchJson(`${REACT_APP_USERS}/${id}`)
+    .then(res =>{
+        setUser(res);
+        console.log(user);
+    })
+  }, []);
 
   // Fonction de signin
   const handleSignIn = async(e) => {
     e.preventDefault();
     try{
-      await fetchPost(REACT_APP_SIGNIN, user)
+      await fetchPatch(REACT_APP_USERS, user._id.$oid, user)
         .then(res => {
           // Si l'utilisateur n'existe pas, on redirige vers la page de login
           if(res.status === true){
@@ -26,7 +36,7 @@ const SignIn = () => {
           }
           // Sinon on affiche un message d'erreur et on réinitialise les champs
           else{
-            navigate('/sign_in');
+            navigate(`/users/${user._id.$oid}`);
             throw new Error(res.message);
           }
         });
@@ -42,13 +52,13 @@ const SignIn = () => {
       [e.target.name]: e.target.value}
     );
   }
-
+console.log(user);
   return (
-    <div className="signin">
-      <div className="signin__container">
-        <div className="signin__container__wrapper">
-          <h1>Sign in</h1>
-            <div className="signin__container__wrapper__input">
+    <div className="edituser">
+      <div className="edituser__container">
+        <div className="edituser__container__wrapper">
+          <h1>Edit User</h1>
+            <div className="edituser__container__wrapper__input">
             <TextField id="gender" label="Civilité" value={user.gender} name="gender" onChange={(e) => handleChange(e)} select>
                 <MenuItem value="female">Femme</MenuItem>
                 <MenuItem value="male">Homme</MenuItem>
@@ -68,7 +78,7 @@ const SignIn = () => {
               <TextField id="country" className="formInput" label="Pays" color="primary" onChange={(e) => handleChange(e)} />
               <TextField id="photo" className="formInput" label="URL de la photo" color="primary" onChange={(e) => handleChange(e)} />
             </div>
-            <Button variant="outlined" type="submit" className="signin__container__wrapper__button" onClick={(e) => handleSignIn(e)}>
+            <Button variant="outlined" type="submit" className="edituser__container__wrapper__button" onClick={(e) => handleSignIn(e)}>
               Sign in
             </Button>
         </div>
@@ -77,4 +87,4 @@ const SignIn = () => {
   );
 }
 
-export default SignIn;
+export default EditUser;

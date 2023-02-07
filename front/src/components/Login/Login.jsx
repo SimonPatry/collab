@@ -64,15 +64,13 @@ const Login = ({ setSessionToken }) => {
       <div className="login__container">
         <div className="login__container__wrapper">
           <h1>Log in</h1>
-          <form action="/login" method="POST">
             <div className="login__container__wrapper__input">
-              <TextField id="username" className="formInput" label="Username" color="primary" onChange={(e) => handleChange(e)} />
+              <TextField  id="mail" className="formInput" label="mail" color="primary" onChange={(e) => handleChange(e)} />
               <TextField id="password" className="formInput" label="Password" type="password" color="primary" onChange={(e) => handleChange(e)} />
             </div>
             <Button variant="outlined" type="submit" className="login__container__wrapper__button" onClick={(e) => handleLogin(e)}>
               Log in
             </Button>
-          </form>
         </div>
       </div>
     </div>
