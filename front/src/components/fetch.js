@@ -6,8 +6,8 @@ const { REACT_APP_API } = process.env;
 
 export const fetchJson = async(url) => {
     let responseJson;
-
-    await fetch(url, { credentials: "include" , mode: "cors" })
+    
+    await fetch(url, { mode: "cors" })
         .then(response => response.json())
         .then(htmlResponse => responseJson = htmlResponse)
 
@@ -21,7 +21,6 @@ export const fetchPost = async(url, body) => {
         mode: "cors",
         headers: {
             'Content-Type': 'application/json',
-            'Allow-Control-Allow-Origin': REACT_APP_API
         },
         body: JSON.stringify(body)
     }
@@ -59,7 +58,6 @@ export const fetchPatch = async(url, id, body) => {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': REACT_APP_API
         },
         body: JSON.stringify(body)
     }

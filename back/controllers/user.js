@@ -1,10 +1,26 @@
 import mongoose from "mongoose";
 import UserModel from "../Models/user.model.js";
 
-export const getUsers = async () => {
+export const getUsers = async (req, res) => {
     const users = await UserModel.find({});
 
     res.json(users);
+};
+
+export const getRandomUser = async (req, res) => {
+    //get all users
+    const users = await UserModel.find({});
+
+    //get one random id from users
+    const randomId = Math.floor(Math.random() * (users.length + 1));
+    
+    res.json(users[randomId]);
+};
+
+export const getSessionUser = async (req, res) => {
+    const user = await UserModel.find({ email: req.session.email })
+    
+    res.json(user);
 };
 
 export const getUser = async (req, res) => {
