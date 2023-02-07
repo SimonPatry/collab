@@ -1,20 +1,17 @@
 import mongoose from "mongoose";
 import UserModel from "../Models/user.model.js";
 
-export const getUser = async (req, res) => {
-    const id = req.params.id;    
-    const user = await UserModel.findById(id);
-
-    res.header({
-
-    })
-    res.json(user);
-};
-
 export const getUsers = async () => {
     const users = await UserModel.find({});
 
     res.json(users);
+};
+
+export const getUser = async (req, res) => {
+    const { id } = req.params;
+    const user = await UserModel.findById(id);
+    
+    res.json(user);
 };
 
 export const deleteUser = async (req, res) => {

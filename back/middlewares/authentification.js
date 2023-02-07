@@ -2,8 +2,10 @@ import dotenv from "dotenv";
 import crypto from "crypto";
 import jsonwebtoken from "jsonwebtoken";
 import UserModel from "../Models/user.model.js"
+import bcrypt from "bcrypt";
 
 dotenv.config();
+
 const {APP_SECRET} = process.env;
 
 // Password security hash
@@ -11,8 +13,7 @@ const {APP_SECRET} = process.env;
 export const hashPass = (req, res, next) => {
     const { password } = req.body;
 
-    // hashing
-    const hashedPass = crypto.createHmac("sha256", APP_SECRET).update(password).digest("hex");
+    const hashedPass = bcrypt.hash(password, APP_SECRET);
 
     //replace by new pw
     req.password = hashedPass;

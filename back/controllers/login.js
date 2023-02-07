@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import UserModel from "../Models/user.model.js"
 import jsonwebtoken from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
@@ -11,9 +12,12 @@ export async function Login (req, res){
   const { email } = req.body;
 
   try {
+
     const user = await UserModel.find({email}, {password: 1});
 
-    if (user[0].password === req.password) {
+    const match = await bcrypt.compare(req.password, user[0].password)
+    
+    if (match) {
       const token = jsonwebtoken.sign(
         {email, role: user},
         APP_SECRET,
