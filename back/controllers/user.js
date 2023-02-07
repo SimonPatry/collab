@@ -17,6 +17,22 @@ export const getUsers = async () => {
     res.json(users);
 };
 
+export const deleteUser = async (req, res) => {
+    
+    const { id } = req.params;
+
+    try{
+        await UserModel.deleteOne({_id: mongoose.Types.ObjectId(id)})
+          .then(res => {
+            console.log(res);
+            res.json("User successfully destroyed")
+          })
+      } catch(e) {
+        console.error(e);
+        res.json(e)
+      }
+};
+
 export const updateUser = async (req, res) => {
     const id = req.params.id;
 
