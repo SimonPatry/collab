@@ -38,7 +38,6 @@ export const SignIn = async (req, res) => {
           photo,
           category
         });
-
           delete req.password;
           console.log(`User ${firstName} ${lastName} has been added!\n`);
           res.redirect(`/`);

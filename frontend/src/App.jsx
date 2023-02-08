@@ -10,9 +10,9 @@ import SignIn from "./components/SignIn/signIn";
 import EditUser from './components/EditUser/editUser';
 import {fetchJson} from "./components/fetch";
 import AppContext from "./context/AppContext";
-import {Button, TextField} from "@mui/material";
-
-
+import Home from './components/Home/Home';
+import { Avatar } from '@mui/material';
+import Collaborators from './components/Collaborators/Collaborators';
 
 const App = () => {
   // On importe les variables d'environnement
@@ -27,11 +27,12 @@ const App = () => {
 
   // Tous les state de App.jsx
   const [sessionToken, setSessionToken] = useState('');
-  const [user, setUser] = useState(emptyUser);
+  const [user, setUser] = useState();
 
   // Fonction pour récupérer l'utilisateur
   const fetchUser = async() => {
     try{
+      console.log(REACT_APP_USER)
       return await fetchJson(REACT_APP_USER);
     } catch(e){
       console.error(e);
@@ -49,7 +50,10 @@ const App = () => {
 
   // On met à jour le state du token
   useEffect(() => {
-    setSessionToken(localStorage.getItem('token'));
+    const token = localStorage.getItem('token');
+    
+    if (token)
+      setSessionToken(token);
   }, []);
 
   // Données de context
@@ -66,10 +70,10 @@ const App = () => {
         <Router>
           <header className="App-header">
             <div>
-              <Link to="/">Yams</Link>
+              <Link to="/">Home</Link>
             </div>
             <nav>
-              <Link to="/winners">Winners</Link>
+              <Link to="/collaborators">Collaborators</Link>
               {
                 !sessionToken ? (
                   <>
@@ -79,16 +83,27 @@ const App = () => {
                 )
                 :
                 (
-                  <a onClick={() => {
-                    localStorage.removeItem("token");
-                    setUser(emptyUser);
-                  }} href="/">Sign out</a>
+                  <>
+                    <Link to="/" onClick={() => {
+                        localStorage.removeItem("token");
+                        setUser(emptyUser);
+                      }}
+                    >
+                      <Avatar 
+                        alt={`${user.firstname.splice(0, 1)}${user.lastname.splice(0, 1)}`}
+                        src={user.photo}
+                      />
+                      Sign Out
+                    </Link>
+                  </>
                 )
               }
             </nav>
           </header>
           <div className="globalContainer">
             <Routes>
+              <Route exact path="/" element={<Home />}/>
+              <Route exact path="/collaborators" element={<Collaborators />}/>
               <Route exact path="/login" element={<Login />}/>
               <Route exact path="/sign_in" element={<SignIn />}/>
               <Route exact path='/users/:id' element={<EditUser/>}/>
