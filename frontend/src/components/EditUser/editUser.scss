@@ -1,23 +1,12 @@
-.login h1, .login label{
-<<<<<<< HEAD
-    color: white;
-=======
+.edituser h1, .edituser label{
     color: rgb(15, 15, 15);
->>>>>>> mvp
   }
   
-  .login__container__wrapper__input>div{
+  .edituser__container__wrapper__input>div{
     margin: 10px;
   }
   
   .css-1d3z3hw-MuiOutlinedInput-notchedOutline{
-<<<<<<< HEAD
-    border-color: white !important;
-  }
-  
-  .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
-    color: white !important;
-=======
     border-color: rgb(17, 17, 17) !important;
   }
   
@@ -25,9 +14,8 @@
     color: rgb(12, 11, 11) !important;
   }
 
-  .login__container__wrapper__input{
+  .edituser__container__wrapper__input{
     display: flex;
     flex-direction: column;
     align-items: center;
->>>>>>> mvp
   }

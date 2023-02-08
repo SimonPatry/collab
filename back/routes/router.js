@@ -16,9 +16,9 @@ const router = express.Router();
 // GET
 router.get("/users/:id", getUser);
 router.get("/users", getUsers);
-
 router.get("/user", getSessionUser);
 router.get("/random", getRandomUser);
+
 
 // POSTS
 router.post("/login", hashPass, Login);
@@ -29,5 +29,6 @@ router.patch("users/:id", authVerif, updateUser)
 
 // DELETE
 router.delete("users/:id", authVerif, deleteUser)
+
 
 export default router;

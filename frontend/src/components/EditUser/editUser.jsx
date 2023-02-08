@@ -1,55 +1,34 @@
-import './signin.scss';
-<<<<<<< HEAD
-import {Button, TextField} from "@mui/material";
-import {fetchPost} from "../fetch";
-import {useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import AppContext from "../../context/AppContext";
-=======
+import './editUser.scss';
 import {Button, TextField, MenuItem} from "@mui/material";
-import {fetchPost} from "../fetch";
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
->>>>>>> mvp
+import {fetchJson, fetchPatch} from "../fetch";
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import React from "react";
 
-const SignIn = () => {
+const EditUser = () => {
   // Hook de navigation
   const navigate = useNavigate();
 
+  const { id } = useParams();
+
   // On récupère les variables d'environnement
-  const { REACT_APP_SIGNIN } = process.env;
+  const { REACT_APP_USERS } = process.env;
 
-<<<<<<< HEAD
-  // On récupère le context
-  const { openError, setOpenError, handleCloseError } = useContext(AppContext);
-
-  // On réinitialise le state d'ouverture du message d'erreur
-  useEffect(() => {
-    setOpenError(false);
-  }, [])
-
-  // On définit un state par défaut pour les credentials
-  const emptyCredentials = {
-    username: '',
-    password: ''
-  }
-
-  // Tous les states de SignIn.jsx
-  const [credentials, setCredentials] = useState(emptyCredentials);
-=======
   const [user, setUser] = useState({gender:"", category:"", lastname:"", firstname:"", mail:"", password:"", city:"", country:"", photo:"", phone:"", birthdate:""});
->>>>>>> mvp
+
+  useEffect(() =>{
+    fetchJson(`${REACT_APP_USERS}/${id}`)
+    .then(res =>{
+        setUser(res);
+        console.log(user);
+    })
+  }, []);
 
   // Fonction de signin
   const handleSignIn = async(e) => {
     e.preventDefault();
     try{
-<<<<<<< HEAD
-      await fetchPost(REACT_APP_SIGNIN, credentials)
-=======
-      await fetchPost(REACT_APP_SIGNIN, user)
->>>>>>> mvp
+      await fetchPatch(REACT_APP_USERS, user._id.$oid, user)
         .then(res => {
           // Si l'utilisateur n'existe pas, on redirige vers la page de login
           if(res.status === true){
@@ -57,11 +36,7 @@ const SignIn = () => {
           }
           // Sinon on affiche un message d'erreur et on réinitialise les champs
           else{
-<<<<<<< HEAD
-            setOpenError(true);
-=======
->>>>>>> mvp
-            navigate('/sign_in');
+            navigate(`/users/${user._id.$oid}`);
             throw new Error(res.message);
           }
         });
@@ -72,30 +47,18 @@ const SignIn = () => {
 
   // Fonction de mise à jour du formulaire
   const handleChange = (e) => {
-<<<<<<< HEAD
-    setCredentials({
-      ...credentials,
-      [e.target.id]: e.target.value}
-=======
     setUser({
       ...user,
       [e.target.name]: e.target.value}
->>>>>>> mvp
     );
   }
-
+console.log(user);
   return (
-    <div className="signin">
-      <div className="signin__container">
-        <div className="signin__container__wrapper">
-          <h1>Sign in</h1>
-<<<<<<< HEAD
-          <form action="/sign_in" method="POST">
-            <div className="signin__container__wrapper__input">
-              <TextField id="username" className="formInput" label="Username" color="primary" onChange={(e) => handleChange(e)} />
-              <TextField id="password" className="formInput" label="Password" type="password" color="primary" onChange={(e) => handleChange(e)} />
-=======
-            <div className="signin__container__wrapper__input">
+    <div className="edituser">
+      <div className="edituser__container">
+        <div className="edituser__container__wrapper">
+          <h1>Edit User</h1>
+            <div className="edituser__container__wrapper__input">
             <TextField id="gender" label="Civilité" value={user.gender} name="gender" onChange={(e) => handleChange(e)} select>
                 <MenuItem value="female">Femme</MenuItem>
                 <MenuItem value="male">Homme</MenuItem>
@@ -114,19 +77,14 @@ const SignIn = () => {
               <TextField id="city" className="formInput" label="Ville" color="primary" onChange={(e) => handleChange(e)} />
               <TextField id="country" className="formInput" label="Pays" color="primary" onChange={(e) => handleChange(e)} />
               <TextField id="photo" className="formInput" label="URL de la photo" color="primary" onChange={(e) => handleChange(e)} />
->>>>>>> mvp
             </div>
-            <Button variant="outlined" type="submit" className="signin__container__wrapper__button" onClick={(e) => handleSignIn(e)}>
+            <Button variant="outlined" type="submit" className="edituser__container__wrapper__button" onClick={(e) => handleSignIn(e)}>
               Sign in
             </Button>
-<<<<<<< HEAD
-          </form>
-=======
->>>>>>> mvp
         </div>
       </div>
     </div>
   );
 }
 
-export default SignIn;
+export default EditUser;
