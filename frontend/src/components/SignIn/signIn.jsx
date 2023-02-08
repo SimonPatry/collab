@@ -12,14 +12,6 @@ const SignIn = () => {
   // On récupère les variables d'environnement
   const { REACT_APP_SIGNIN } = process.env;
 
-  // On récupère le context
-  const { openError, setOpenError, handleCloseError } = useContext(AppContext);
-
-  // On réinitialise le state d'ouverture du message d'erreur
-  useEffect(() => {
-    setOpenError(false);
-  }, [])
-
   const [user, setUser] = useState({gender:"", category:"", lastname:"", firstname:"", mail:"", password:"", city:"", country:"", photo:"", phone:"", birthdate:""});
 
   // Fonction de signin

@@ -31,7 +31,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
-app.use(cors({ origin: "*", credentials: true }));
+app.use(cors({ origin: "*"}));
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session({
