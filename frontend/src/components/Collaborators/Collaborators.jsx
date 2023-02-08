@@ -1,4 +1,5 @@
 import { Button, Card, TextField, CardActionArea, CardMedia, CardContent, Typography } from "@mui/material";
+import './collaborators.scss';
 import { useEffect,useState } from "react";
 import { MenuItem } from "@mui/material";
 import { fetchJson } from "../fetch";
@@ -63,23 +64,26 @@ const Collaborators = () => {
 
     return (
         <div>
-            <TextField style={{width: 100}} id="search" name="search" label="search" inputProps={{ style: { color: "black" } }} onChange={(e) => handleChange(e)}/>
+            <div className="onsaitplus">
+            <TextField style={{width: 200, margin: '20px auto'}} id="search" name="search" label="search" inputProps={{ style: { color: "black" } }} onChange={(e) => handleChange(e)}/>
 
-            <TextField style={{width: 100}} id="lastname" name="lastname" label="lastname"  value={searchOptions.lastname} onChange={(e) => handleChange(e)} select>
+            <TextField style={{width: 200, margin: '20px auto'}} id="lastname" name="lastname" label="lastname"  value={searchOptions.lastname} onChange={(e) => handleChange(e)} select>
                 { users.map((user, index) => {
                     return (
                         <MenuItem key={index} value={user.lastname}>{user.lastname}</MenuItem>
                     );
                 })}
             </TextField>
-            <TextField style={{width: 100}} id="category" label="category" name="category" value={searchOptions.category} onChange={(e) => handleChange(e)} select>
+            <TextField style={{width: 200, margin: '20px auto'}} id="category" label="category" name="category" value={searchOptions.category} onChange={(e) => handleChange(e)} select>
                 <MenuItem value="Marketing">Marketing</MenuItem>
                 <MenuItem value="Technique">Technique</MenuItem>
                 <MenuItem value="Client">Client</MenuItem>
             </TextField>
+            </div>
+            <div className="collabs">
             {sortUsers.map((user, index) => {
                 return(
-                    <Card key={index} sx={{ maxWidth: 345 }}>
+                    <Card className="cardCollab" key={index} sx={{ maxWidth: 345 }}>
                         <CardActionArea>
                             <CardMedia
                             component="img"
@@ -108,13 +112,14 @@ const Collaborators = () => {
                         </CardActionArea>
                         { user.isAdmin &&
                             <>
-                                <Button>Edit</Button>
-                                <Button>Delete</Button>
+                                <Button style={{margin: '0 auto', display: "flex"}}>Edit</Button>
+                                <Button style={{margin: '0 auto', display: "flex"}}>Delete</Button>
                             </>
                         }
                     </Card>
                 );
             })}
+            </div>
         </div>
     );
 };

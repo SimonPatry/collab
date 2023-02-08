@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import './home.scss';
 import { fetchJson } from '../fetch';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -31,7 +32,7 @@ const Home = () => {
             <h1>Bienvenue sur l'intranet</h1>
             <p>La plateforme de l'entreprise qui permet de retrouver tout vos collaborateurs.</p>
             <h3>Avez-vous dit bonjour à:</h3>
-            <Card sx={{ maxWidth: 345 }}>
+            <Card className="card" sx={{ maxWidth: 345 }}>
                 <CardActionArea>
                     <CardMedia
                     component="img"
@@ -58,7 +59,7 @@ const Home = () => {
                     </CardContent>
                 </CardActionArea>
             </Card>
-            <Button onClick={() => {
+            <Button style={{margin: '0 auto', display: "flex", marginTop: "20px" }} onClick={() => {
                 setUser(getRandomUser());
             }}>
                 DIRE BONJOUR A QUELQU'UN D'AUTRE

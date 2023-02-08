@@ -69,21 +69,19 @@ const App = () => {
       <div className="App">
         <Router>
           <header className="App-header">
-            <div>
-              <Link to="/">Home</Link>
-            </div>
             <nav>
-              <Link to="/collaborators">Collaborators</Link>
+              <Link to="/home">Intranet</Link>
+              <Link to="/collaborators">Liste</Link>
               {
                 !sessionToken ? (
                   <>
-                    <Link to="/sign_in">Sign in</Link>
-                    <Link to="/login">Log in</Link>
+                    <Link to="/login">Connexion</Link>
                   </>
                 )
                 :
                 (
                   <>
+                  <Link to="/sign_in">Ajout Collaborateur</Link>
                     <Link to="/" onClick={() => {
                         localStorage.removeItem("token");
                         setUser(emptyUser);

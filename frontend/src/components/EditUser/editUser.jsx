@@ -57,7 +57,7 @@ console.log(user);
     <div className="edituser">
       <div className="edituser__container">
         <div className="edituser__container__wrapper">
-          <h1>Edit User</h1>
+          <h1>Modification profil</h1>
             <div className="edituser__container__wrapper__input">
             <TextField id="gender" label="Civilité" value={user.gender} name="gender" onChange={(e) => handleChange(e)} select>
                 <MenuItem value="female">Femme</MenuItem>
@@ -78,8 +78,8 @@ console.log(user);
               <TextField id="country" className="formInput" label="Pays" color="primary" onChange={(e) => handleChange(e)} />
               <TextField id="photo" className="formInput" label="URL de la photo" color="primary" onChange={(e) => handleChange(e)} />
             </div>
-            <Button variant="outlined" type="submit" className="edituser__container__wrapper__button" onClick={(e) => handleSignIn(e)}>
-              Sign in
+            <Button  style={{margin: '0 auto', display: "flex"}} variant="outlined" type="submit" className="edituser__container__wrapper__button" onClick={(e) => handleSignIn(e)}>
+              Modifier
             </Button>
         </div>
       </div>
