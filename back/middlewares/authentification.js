@@ -9,13 +9,13 @@ const {APP_SECRET} = process.env;
 
 // Password security hash
 
-export const hashPass = (req, res, next) => {
+export const hashPass = async (req, res, next) => {
     const { password } = req.body;
 
-    const hashedPass = bcrypt.hash(password, 10);
-    
-    //replace by new pw
-    req.password = hashedPass;
+    await bcrypt.hash(password, 10)
+    .then ((hashedPass) => {
+        req.body.password = hashedPass;
+    })
 
     next();
 };
@@ -49,13 +49,15 @@ export const userExists = async(email) => {
     }
 }
 
-export const isAdmin = async () => {
+export const isAdmin = async (req, res, next) => {
+    const datas = jsonwebtoken.decode(req.session.token);
+    console.log(datas);
     try {
-        const user = await UserModel.find({ email });
-        if(user.isAdmin)
-           return true;
+        
+        if(datas.role == "admin" )
+           next();
         else
-            return false;
+            throw new Error(`Missing admin privileges`); 
     }
     catch (error) {
         return new Error(`Error: ${error.message}`);

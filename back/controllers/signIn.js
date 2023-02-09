@@ -1,15 +1,13 @@
 import UserModel from "../Models/user.model.js"
 import { userExists } from "../middlewares/authentification.js";
 
-export function SignInPage(req, res) {
-  res.render("signIn");
-}
-
-export const SignIn = async (req, res) => {   
+export const SignIn = async (req, res) => {
+  const { FRONTEND_URL } = process.env; 
   const {
     gender,
-    firstName, 
-    lastName, 
+    firstname, 
+    lastname, 
+    password,
     email,
     phone,
     birthdate,
@@ -18,29 +16,38 @@ export const SignIn = async (req, res) => {
     photo,
     category
   } = req.body;
-  
+  console.log(req.body)
   try {
       const user = await userExists(email);
       if (user){
-        res.send()
+        res.status(302).json({
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': FRONTEND_URL,
+          "status": false,
+          message: 'User already exists',
+        });
       }
       else {
         await UserModel.create({
           gender,
-          firstName, 
-          lastName, 
+          category,
+          firstname, 
+          lastname, 
           email,
-          password: req.password,
+          password,
           phone,
           birthdate,
           city,
           country,
           photo,
-          category
+          
         });
-          delete req.password;
-          console.log(`User ${firstName} ${lastName} has been added!\n`);
-          res.redirect(`/`);
+        console.log(`User ${firstname} ${lastname} has been added!\n`);
+        res.status(200).json({
+          "status": true,
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': FRONTEND_URL,
+        });
       }
   } catch (error) {
       console.log(`Error: ${error.message}`);

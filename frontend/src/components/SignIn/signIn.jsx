@@ -12,7 +12,11 @@ const SignIn = () => {
   // On récupère les variables d'environnement
   const { REACT_APP_SIGNIN } = process.env;
 
-  const [user, setUser] = useState({gender:"", category:"", lastname:"", firstname:"", mail:"", password:"", city:"", country:"", photo:"", phone:"", birthdate:""});
+  const [user, setUser] = useState({gender:"", category:"", lastname:"", firstname:"", email:"", password:"", city:"", country:"", photo:"", phone:"", birthdate:""});
+
+  useEffect(() => {
+    console.log(user)
+  }, [user])
 
   // Fonction de signin
   const handleSignIn = async(e) => {
@@ -37,6 +41,7 @@ const SignIn = () => {
 
   // Fonction de mise à jour du formulaire
   const handleChange = (e) => {
+
     setUser({
       ...user,
       [e.target.name]: e.target.value}
@@ -47,29 +52,37 @@ const SignIn = () => {
     <div className="signin">
       <div className="signin__container">
         <div className="signin__container__wrapper">
-          <h1>Sign in</h1>
+          <h1>Créer un utilisateur</h1>
             <div className="signin__container__wrapper__input">
             <TextField id="gender" label="Civilité" value={user.gender} name="gender" onChange={(e) => handleChange(e)} select>
                 <MenuItem value="female">Femme</MenuItem>
                 <MenuItem value="male">Homme</MenuItem>
             </TextField>
-              <TextField id="category" label="category" value={user.category} name="category" onChange={(e) => handleChange(e)} select>
+              <TextField id="category" label="category" value={user.category} name="category" onChange={(e) => {handleChange(e)}} select>
                 <MenuItem value="Marketing">Marketing</MenuItem>
                 <MenuItem value="Technique">Technique</MenuItem>
                 <MenuItem value="Client">Client</MenuItem>
             </TextField>
-              <TextField id="lastname" className="formInput" label="Nom" color="primary" onChange={(e) => handleChange(e)} />
-              <TextField id="firstname" className="formInput" label="Prénom" color="primary" onChange={(e) => handleChange(e)} />
-              <TextField id="mail" className="formInput" label="Email" color="primary" onChange={(e) => handleChange(e)} />
-              <TextField id="password" className="formInput" label="Password" type="password" color="primary" onChange={(e) => handleChange(e)} />
-              <TextField id="phone" className="formInput" label="Téléphone" color="primary" onChange={(e) => handleChange(e)} />
-              <TextField id="birthdate" className="formInput" label="Date de naissance" color="primary" onChange={(e) => handleChange(e)} />
-              <TextField id="city" className="formInput" label="Ville" color="primary" onChange={(e) => handleChange(e)} />
-              <TextField id="country" className="formInput" label="Pays" color="primary" onChange={(e) => handleChange(e)} />
-              <TextField id="photo" className="formInput" label="URL de la photo" color="primary" onChange={(e) => handleChange(e)} />
+
+              <TextField name="lastname" id="lastname" className="formInput" label="Nom" color="primary" onChange={(e) => {handleChange(e)}} />
+              
+              <TextField name="firstname" id="firstname" className="formInput" label="Prénom" color="primary" onChange={(e) => handleChange(e)} />
+              
+              <TextField name="email" id="email" className="formInput" label="email" color="primary" onChange={(e) => handleChange(e)} />
+              
+              <TextField name="password" id="password" className="formInput" label="Password" type="password" color="primary" onChange={(e) => handleChange(e)} />
+              
+              <TextField name="phone" id="phone" className="formInput" label="Téléphone" color="primary" onChange={(e) => handleChange(e)} />
+              <TextField name="birthdate" id="birthdate" className="formInput" label="Date de naissance" color="primary" onChange={(e) => handleChange(e)} />
+
+              <TextField name="city" id="city" className="formInput" label="Ville" color="primary" onChange={(e) => handleChange(e)} />
+              
+              <TextField name="country" id="country" className="formInput" label="Pays" color="primary" onChange={(e) => handleChange(e)} />
+              
+              <TextField name="photo" id="photo" className="formInput" label="URL de la photo" color="primary" onChange={(e) => handleChange(e)} />
             </div>
-            <Button variant="outlined" type="submit" className="signin__container__wrapper__button" onClick={(e) => handleSignIn(e)}>
-              Sign in
+            <Button style={{margin: '0 auto', display: "flex"}} variant="outlined" type="submit" className="signin__container__wrapper__button" onClick={(e) => handleSignIn(e)}>
+              Ajouter
             </Button>
         </div>
       </div>

@@ -18,8 +18,7 @@ export const getRandomUser = async (req, res) => {
 };
 
 export const getSessionUser = async (req, res) => {
-    const user = await UserModel.find({ email: req.session.email })
-    
+    const user = await UserModel.findOne({ email: req.session.email })
     res.json(user);
 };
 
@@ -48,6 +47,7 @@ export const deleteUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     const id = req.params.id;
+    const {FRONTEND_URL} = process.env;
 
     const {
         email,
@@ -63,7 +63,8 @@ export const updateUser = async (req, res) => {
         isAdmin
     } = req.body;
 
-    const update = await UserModel.updateOne({
+    try {
+        const update = await UserModel.updateOne({
             _id: mongoose.Types.ObjectId(id)
         }, 
         {
@@ -79,4 +80,13 @@ export const updateUser = async (req, res) => {
             category,
             isAdmin
         })
+        res.status(200).json({
+            "status": true,
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': FRONTEND_URL,
+            'message': 'Userd updated successfully'
+          });
+    } catch(error) {
+        console.log(`Error: ${error.message}`);
+    }
 };

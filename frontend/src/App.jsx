@@ -18,21 +18,13 @@ const App = () => {
   // On importe les variables d'environnement
   const { REACT_APP_USER } = process.env;
 
-  // On définit un state par défaut pour le user
-  const emptyUser = {
-    firstname: '',
-    lastname: '',
-    email: '',
-  }
-
   // Tous les state de App.jsx
   const [sessionToken, setSessionToken] = useState('');
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
 
   // Fonction pour récupérer l'utilisateur
   const fetchUser = async() => {
     try{
-      console.log(REACT_APP_USER)
       return await fetchJson(REACT_APP_USER);
     } catch(e){
       console.error(e);
@@ -42,18 +34,19 @@ const App = () => {
   // Quand le token est présent, on récupère l'utilisateur
   useEffect(() => {
     sessionToken &&
-      fetchUser().then(user => {
-        setUser(user);
-
+      fetchUser().then(fetchedUser => {
+        console.log(fetchedUser)
+        setUser(fetchedUser);
       })
   }, [sessionToken])
 
   // On met à jour le state du token
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    
-    if (token)
-      setSessionToken(token);
+    setSessionToken(localStorage.getItem('token'));
+    fetchUser().then(fetchedUser => {
+      console.log(fetchedUser)
+      setUser(fetchedUser);
+    })
   }, []);
 
   // Données de context
@@ -75,24 +68,29 @@ const App = () => {
             <nav>
               <Link to="/collaborators">Collaborators</Link>
               {
-                !sessionToken ? (
+                !user ? (
                   <>
-                    <Link to="/sign_in">Sign in</Link>
                     <Link to="/login">Log in</Link>
                   </>
                 )
                 :
                 (
                   <>
+                    { user.isAdmin &&
+                     <Link to="/sign_in">Sign in</Link>
+                    }
+                    <Link to={`/edit_user`}>
+                      <Avatar
+                        alt={`${user.firstname} ${user.lastname}`}
+                        src={user.photo}
+                      />
+                    </Link>
                     <Link to="/" onClick={() => {
                         localStorage.removeItem("token");
+                        req.session.destroy();
                         setUser(emptyUser);
                       }}
                     >
-                      <Avatar 
-                        alt={`${user.firstname.splice(0, 1)}${user.lastname.splice(0, 1)}`}
-                        src={user.photo}
-                      />
                       Sign Out
                     </Link>
                   </>
@@ -106,6 +104,7 @@ const App = () => {
               <Route exact path="/collaborators" element={<Collaborators />}/>
               <Route exact path="/login" element={<Login />}/>
               <Route exact path="/sign_in" element={<SignIn />}/>
+              <Route exact path='/edit_user' element={<EditUser/>}/>
               <Route exact path='/users/:id' element={<EditUser/>}/>
             </Routes>
           </div>

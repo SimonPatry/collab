@@ -1,11 +1,15 @@
 import { Button, Card, TextField, CardActionArea, CardMedia, CardContent, Typography } from "@mui/material";
-import { useEffect,useState } from "react";
+import { useContext, useEffect,useState } from "react";
 import { MenuItem } from "@mui/material";
-import { fetchJson } from "../fetch";
+import { fetchDelete, fetchJson } from "../fetch";
+import AppContext from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const Collaborators = () => {
 
     const { REACT_APP_USERS } = process.env;
+    const { user } = useContext(AppContext);
+    const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const [sortUsers, setSortUsers] = useState([]);
     const [searchOptions, setSearchOptions] = useState({
@@ -19,6 +23,7 @@ const Collaborators = () => {
     }
 
     useEffect(() => {
+        console.log(user)
         getUsers()
         .then((response) => {
             setUsers(response);
@@ -36,18 +41,18 @@ const Collaborators = () => {
             sortedUser = [...users];
         }
         else {
-            users.map((user) => {
+            users.map((person) => {
                 if (searchOptions.category != "") {
-                    if (user.category == searchOptions.category)
-                        sortedUser.push(user);
+                    if (person.category == searchOptions.category)
+                        sortedUser.push(person);
                 }
                 if (searchOptions.search != "") {
-                    if (user.city.toLowerCase().includes(searchOptions.search.toLowerCase()) || user.country.toLowerCase().includes(searchOptions.search.toLowerCase()))
-                        sortedUser.push(user);
+                    if (person.city.toLowerCase().includes(searchOptions.search.toLowerCase()) || user.country.toLowerCase().includes(searchOptions.search.toLowerCase()))
+                        sortedUser.push(person);
                 }
                 if (searchOptions.lastname != "") {
-                    if (user.lastname == searchOptions.lastname)
-                        sortedUser.push(user);
+                    if (person.lastname == searchOptions.lastname)
+                        sortedUser.push(person);
                 }
             })
         }
@@ -61,14 +66,22 @@ const Collaborators = () => {
         });
     }
 
+    const deleteUser = async (id) => {
+        await fetchDelete(id)
+        .then(() => {
+            setUsers(getUsers());
+            setSortUsers(users);
+        })
+    }
+
     return (
         <div>
-            <TextField style={{width: 100}} id="search" name="search" label="search" inputProps={{ style: { color: "black" } }} onChange={(e) => handleChange(e)}/>
+            <TextField style={{width: 100}} id="search" name="search" label="search" onChange={(e) => handleChange(e)}/>
 
             <TextField style={{width: 100}} id="lastname" name="lastname" label="lastname"  value={searchOptions.lastname} onChange={(e) => handleChange(e)} select>
-                { users.map((user, index) => {
+                { users.map((person, index) => {
                     return (
-                        <MenuItem key={index} value={user.lastname}>{user.lastname}</MenuItem>
+                        <MenuItem key={index} value={person.lastname}>{person.lastname}</MenuItem>
                     );
                 })}
             </TextField>
@@ -77,39 +90,48 @@ const Collaborators = () => {
                 <MenuItem value="Technique">Technique</MenuItem>
                 <MenuItem value="Client">Client</MenuItem>
             </TextField>
-            {sortUsers.map((user, index) => {
+            {sortUsers.map((person, index) => {
                 return(
                     <Card key={index} sx={{ maxWidth: 345 }}>
                         <CardActionArea>
                             <CardMedia
                             component="img"
                             height="140"
-                            image={user.photo}
-                            alt={`${user.firstname} ${user.lastname}`}
+                            image={person.photo}
+                            alt={`${person.firstname} ${person.lastname}`}
                             />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
-                                    {`${user.firstname} ${user.lastname} (${user.birthdate})`}
+                                    {`${person.firstname} ${person.lastname} (${person.birthdate})`}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    {`${user.city}, ${user.country}`}
+                                    {`${person.city}, ${person.country}`}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    {`${user.email}`}
+                                    {`${person.email}`}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    {`${user.phone}`}
+                                    {`${person.phone}`}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    {`Anniversaire: ${user.birthdate}`}
+                                    {`Anniversaire: ${person.birthdate}`}
                                 </Typography>
                                 
                             </CardContent>
                         </CardActionArea>
-                        { user.isAdmin &&
+                        { user && user.isAdmin &&
                             <>
-                                <Button>Edit</Button>
-                                <Button>Delete</Button>
+                                <Button onClick={() => {
+                                    navigate(`/users/${person._id.toString()}`);
+                                }
+                                }>
+                                    Edit
+                                </Button>
+                                <Button onClick={() => {
+                                    deleteUser((person._id + ""));
+                                }}>
+                                    Delete
+                                </Button>
                             </>
                         }
                     </Card>

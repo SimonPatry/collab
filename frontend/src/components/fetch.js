@@ -1,8 +1,13 @@
+const { REACT_APP_API } = process.env;
+
+/*
+    Méthodes de fetch
+*/
 
 export const fetchJson = async(url) => {
     let responseJson;
-    
-    await fetch(url, { mode: "cors" })
+
+    await fetch(url, { credentials: "include" , mode: "cors" })
         .then(response => response.json())
         .then(htmlResponse => responseJson = htmlResponse)
 
@@ -10,16 +15,17 @@ export const fetchJson = async(url) => {
 }
 
 export const fetchPost = async(url, body) => {
-
     const postRequest = {
         method: 'POST',
+        credentials: "include",
+        mode: "cors",
         headers: {
             'Content-Type': 'application/json',
+            'Allow-Control-Allow-Origin': REACT_APP_API
         },
         body: JSON.stringify(body)
     }
 
-    
     try{
         const fetchResponse = await fetch(url, postRequest);
         const data = await fetchResponse.json();
@@ -30,18 +36,20 @@ export const fetchPost = async(url, body) => {
     }
 }
 
-export const fetchDelete = async(url, name) => {
+export const fetchDelete = async(url, id) => {
     const deleteRequest = {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             'Content-Type': 'text/plain',
+            'Allow-Control-Allow-Origin': REACT_APP_API
         }
     }
 
     try{
-        const fetchResponse = await fetch(`${url}/${name}`, deleteRequest);
-        const data = await fetchResponse.json();
-        return data;
+        await fetch(`${url}/${id}`, deleteRequest)
+        .then(() => {
+            console.log("user deleted successfully")
+        })
     }
     catch(error){
         console.error("Une erreur est survenue : %s", error);
@@ -53,6 +61,7 @@ export const fetchPatch = async(url, id, body) => {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
+            'Allow-Control-Allow-Origin': REACT_APP_API
         },
         body: JSON.stringify(body)
     }

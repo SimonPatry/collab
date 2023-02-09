@@ -14,7 +14,6 @@ const Home = () => {
     
     // get One random user
     const getRandomUser = async() => {
-        console.log(REACT_APP_RANDOM)
         await fetchJson(REACT_APP_RANDOM)
         .then((response) => {
             setUser(response);
@@ -47,7 +46,7 @@ const Home = () => {
                         {`${user.city}, ${user.country}`}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {`${user.mail}`}
+                        {`${user.email}`}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         {`${user.phone}`}
