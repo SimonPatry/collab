@@ -39,13 +39,13 @@ export async function Login (req, res){
       });
     }
     else {
-    res.status(404).json({
-      'Content-Type': 'application/json',
-      "status": false,
-      message: 'User not found',
-      location: '/login'
-    });
-  }
+      res.status(404).json({
+        'Content-Type': 'application/json',
+        "status": false,
+        message: 'User not found',
+        location: '/login'
+      });
+    }
   } catch (error) {
       console.log(`Login
        error: ${error.message}`);

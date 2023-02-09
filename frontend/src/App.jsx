@@ -62,10 +62,8 @@ const App = () => {
       <div className="App">
         <Router>
           <header className="App-header">
-            <div>
-              <Link to="/">Home</Link>
-            </div>
             <nav>
+              <Link to="/">Home</Link>
               <Link to="/collaborators">Collaborators</Link>
               {
                 !user ? (
@@ -77,7 +75,7 @@ const App = () => {
                 (
                   <>
                     { user.isAdmin &&
-                     <Link to="/sign_in">Sign in</Link>
+                     <Link to="/sign_in"> + Ajouter </Link>
                     }
                     <Link to={`/edit_user`}>
                       <Avatar

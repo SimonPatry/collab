@@ -4,6 +4,7 @@ import { MenuItem } from "@mui/material";
 import { fetchDelete, fetchJson } from "../fetch";
 import AppContext from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import "./collaborators.scss"
 
 const Collaborators = () => {
 
@@ -75,24 +76,28 @@ const Collaborators = () => {
     }
 
     return (
-        <div>
-            <TextField style={{width: 100}} id="search" name="search" label="search" onChange={(e) => handleChange(e)}/>
-
-            <TextField style={{width: 100}} id="lastname" name="lastname" label="lastname"  value={searchOptions.lastname} onChange={(e) => handleChange(e)} select>
-                { users.map((person, index) => {
-                    return (
-                        <MenuItem key={index} value={person.lastname}>{person.lastname}</MenuItem>
-                    );
-                })}
-            </TextField>
-            <TextField style={{width: 100}} id="category" label="category" name="category" value={searchOptions.category} onChange={(e) => handleChange(e)} select>
-                <MenuItem value="Marketing">Marketing</MenuItem>
-                <MenuItem value="Technique">Technique</MenuItem>
-                <MenuItem value="Client">Client</MenuItem>
-            </TextField>
+        <div >
+            <div className="onsaitplus">
+                <TextField style={{width: 200, margin:"20px auto"}} id="search" name="search" label="search" onChange={(e) => handleChange(e)}/>
+                <TextField style={{width: 200, margin:"20px auto"}} id="lastname" name="lastname" label="lastname"  value={searchOptions.lastname} onChange={(e) => handleChange(e)} select>
+                    <MenuItem value="">-</MenuItem>
+                    { users.map((person, index) => {
+                        return (
+                            <MenuItem key={index} value={person.lastname}>{person.lastname}</MenuItem>
+                        );
+                    })}
+                </TextField>
+                <TextField style={{width: 200, margin:"20px auto"}} id="category" label="category" name="category" value={searchOptions.category} onChange={(e) => handleChange(e)} select>
+                    <MenuItem value="">-</MenuItem>
+                    <MenuItem value="Marketing">Marketing</MenuItem>
+                    <MenuItem value="Technique">Technique</MenuItem>
+                    <MenuItem value="Client">Client</MenuItem>
+                </TextField>
+            </div>
+            <div className="collabs">
             {sortUsers.map((person, index) => {
                 return(
-                    <Card key={index} sx={{ maxWidth: 345 }}>
+                    <Card className="cardCollab" key={index} sx={{ maxWidth: 300, marginBottom: 5 }}>
                         <CardActionArea>
                             <CardMedia
                             component="img"
@@ -121,13 +126,13 @@ const Collaborators = () => {
                         </CardActionArea>
                         { user && user.isAdmin &&
                             <>
-                                <Button onClick={() => {
+                                <Button style={{margin: '0 auto', display: "flex"}} onClick={() => {
                                     navigate(`/users/${person._id.toString()}`);
                                 }
                                 }>
                                     Edit
                                 </Button>
-                                <Button onClick={() => {
+                                <Button style={{margin: '0 auto', display: "flex"}} onClick={() => {
                                     deleteUser((person._id + ""));
                                 }}>
                                     Delete
@@ -137,6 +142,7 @@ const Collaborators = () => {
                     </Card>
                 );
             })}
+            </div>
         </div>
     );
 };

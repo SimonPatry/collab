@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import "./home.scss";
 
 const Home = () => {
 
@@ -57,7 +58,7 @@ const Home = () => {
                     </CardContent>
                 </CardActionArea>
             </Card>
-            <Button onClick={() => {
+            <Button style={{margin: '0 auto', display: "flex"}} onClick={() => {
                 setUser(getRandomUser());
             }}>
                 DIRE BONJOUR A QUELQU'UN D'AUTRE

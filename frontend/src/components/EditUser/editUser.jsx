@@ -100,7 +100,7 @@ const EditUser = () => {
               
             </>}
             </div>
-            <Button variant="outlined" type="submit" className="edituser__container__wrapper__button" onClick={(e) => handleSignIn(e)}>
+            <Button style={{margin: '0 auto', display: "flex"}} variant="outlined" type="submit" className="edituser__container__wrapper__button" onClick={(e) => handleSignIn(e)}>
               Sign in
             </Button>
         </div>
