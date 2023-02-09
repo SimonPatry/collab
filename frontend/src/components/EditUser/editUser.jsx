@@ -98,6 +98,10 @@ const EditUser = () => {
 
               <TextField id="photo" name="photo" className="formInput" label="URL de la photo" color="primary" onChange={(e) => {handleChange(e)}} />
               
+              <TextField id="isAdmin" label="isAdmin" value={user.isAdmin} name="isAdmin" onChange={(e) => {handleChange(e)}} select >
+                <MenuItem value={true}>true</MenuItem>
+                <MenuItem value={false}>false</MenuItem>
+              </TextField>
             </>}
             </div>
             <Button style={{margin: '0 auto', display: "flex"}} variant="outlined" type="submit" className="edituser__container__wrapper__button" onClick={(e) => handleSignIn(e)}>

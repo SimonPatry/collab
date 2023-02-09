@@ -43,6 +43,8 @@ const App = () => {
   // On met à jour le state du token
   useEffect(() => {
     setSessionToken(localStorage.getItem('token'));
+
+    sessionToken && 
     fetchUser().then(fetchedUser => {
       console.log(fetchedUser)
       setUser(fetchedUser);
@@ -74,7 +76,7 @@ const App = () => {
                 :
                 (
                   <>
-                    { user.isAdmin &&
+                    { sessionToken && user && user.isAdmin &&
                      <Link to="/sign_in"> + Ajouter </Link>
                     }
                     <Link to={`/edit_user`}>

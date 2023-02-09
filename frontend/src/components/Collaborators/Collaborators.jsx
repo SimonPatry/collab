@@ -68,10 +68,11 @@ const Collaborators = () => {
     }
 
     const deleteUser = async (id) => {
-        await fetchDelete(id)
+        await fetchDelete(REACT_APP_USERS, id)
         .then(() => {
-            setUsers(getUsers());
-            setSortUsers(users);
+            console.log("deleted end")
+            // setUsers(getUsers());
+            // setSortUsers(users);
         })
     }
 
@@ -97,7 +98,7 @@ const Collaborators = () => {
             <div className="collabs">
             {sortUsers.map((person, index) => {
                 return(
-                    <Card className="cardCollab" key={index} sx={{ maxWidth: 300, marginBottom: 5 }}>
+                    <Card className="cardCollab" key={index} sx={{ maxWidth: "30vw", marginBottom: 5 }}>
                         <CardActionArea>
                             <CardMedia
                             component="img"
@@ -132,8 +133,10 @@ const Collaborators = () => {
                                 }>
                                     Edit
                                 </Button>
-                                <Button style={{margin: '0 auto', display: "flex"}} onClick={() => {
-                                    deleteUser((person._id + ""));
+                                <Button style={{margin: '0 auto', display: "flex"}} onClick={(e) => {
+                                    e.preventDefault();
+                                    deleteUser((person._id.toString()));
+                                    navigate(`/collaborators`);
                                 }}>
                                     Delete
                                 </Button>

@@ -32,7 +32,7 @@ export const getUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
     
     const { id } = req.params;
-
+    console.log("test")
     try{
         await UserModel.deleteOne({_id: mongoose.Types.ObjectId(id)})
           .then(res => {

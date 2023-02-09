@@ -39,16 +39,18 @@ export const fetchPost = async(url, body) => {
 export const fetchDelete = async(url, id) => {
     const deleteRequest = {
         method: 'DELETE',
+        credentials: "include",
+        mode: "cors",
         headers: {
             'Content-Type': 'text/plain',
             'Allow-Control-Allow-Origin': REACT_APP_API
         }
     }
-
     try{
         await fetch(`${url}/${id}`, deleteRequest)
-        .then(() => {
+        .then((response) => {
             console.log("user deleted successfully")
+            return response.json();
         })
     }
     catch(error){
