@@ -41,7 +41,6 @@ const SignIn = () => {
 
   // Fonction de mise à jour du formulaire
   const handleChange = (e) => {
-
     setUser({
       ...user,
       [e.target.name]: e.target.value}

@@ -60,7 +60,6 @@ const EditUser = () => {
       [e.target.name]: e.target.value}
     );
   }
-
   return (
     <div className="edituser">
       <div className="edituser__container">

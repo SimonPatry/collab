@@ -6,8 +6,8 @@ import {
   Route, Link,
 } from "react-router-dom";
 import Login from "./components/Login/Login";
-import SignIn from "./components/SignIn/signIn";
-import EditUser from './components/EditUser/editUser';
+import SignIn from "./components/SignIn/SignIn";
+import EditUser from './components/EditUser/EditUser';
 import {fetchJson} from "./components/fetch";
 import AppContext from "./context/AppContext";
 import Home from './components/Home/Home';
